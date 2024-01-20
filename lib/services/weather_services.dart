@@ -1,16 +1,38 @@
 import 'NetworkHelper.dart';
 
-// WeatherService class for handling weather-specific functionalities.
 class WeatherService {
-  WeatherService({required this.latitude, required this.longitude});
+  WeatherService._({
+    required this.latitude,
+    required this.longitude,
+  });
 
+  // Weather station properties
   final double latitude;
   final double longitude;
+  String? city;
+  String? state;
+
+  // Forecast properties
+  String? name; // name of the time period, e.g., "This Afternoon"
+  int? temperature;
+  int? probabilityOfPrecipitation;
+  int? relativeHumidity;
+  String? windSpeed;
+  String? windDirection;
+  String? shortForecast;
+  String? detailedForecast;
 
   static const String baseEndpoint = 'https://api.weather.gov/points/';
   NetworkHelper networkHelper = NetworkHelper();
 
-  Future<String?> getForecastUrl() async {
+  static Future<WeatherService> create(
+      double latitude, double longitude) async {
+    var service = WeatherService._(latitude: latitude, longitude: longitude);
+    await service._getWeatherProperties();
+    return service;
+  }
+
+  Future<String?> _getForecastUrl() async {
     String endpointURL = '$baseEndpoint$latitude,$longitude';
     var endpointData = await networkHelper.getData(endpointURL);
     if (endpointData != null) {
@@ -24,21 +46,28 @@ class WeatherService {
     return null;
   }
 
-  Future<int?> getTemperature() async {
-    String? forecastURL = await getForecastUrl();
+  Future<void> _getWeatherProperties() async {
+    String? forecastURL = await _getForecastUrl();
     if (forecastURL != null) {
       var forecastData = await networkHelper.getData(forecastURL);
       if (forecastData != null) {
         try {
           WeatherData forecastDecodedData =
               WeatherData.fromFirstPeriodJson(forecastData);
-          return forecastDecodedData.temperature;
+          name = forecastDecodedData.name;
+          temperature = forecastDecodedData.temperature;
+          probabilityOfPrecipitation =
+              forecastDecodedData.probabilityOfPrecipitation;
+          relativeHumidity = forecastDecodedData.relativeHumidity;
+          windSpeed = forecastDecodedData.windSpeed;
+          windDirection = forecastDecodedData.windDirection;
+          shortForecast = forecastDecodedData.shortForecast;
+          detailedForecast = forecastDecodedData.detailedForecast;
         } catch (e) {
           print('Error parsing forecast data: $e');
         }
       }
     }
-    return null;
   }
 }
 
@@ -55,14 +84,38 @@ class ForecastData {
 }
 
 class WeatherData {
+  final String? name; // name of the time period, e.g., "This Afternoon"
   final int? temperature;
+  final int? probabilityOfPrecipitation;
+  final int? relativeHumidity;
+  final String? windSpeed;
+  final String? windDirection;
+  final String? shortForecast;
+  final String? detailedForecast;
 
-  WeatherData._({this.temperature});
+  WeatherData._({
+    this.name,
+    this.temperature,
+    this.probabilityOfPrecipitation,
+    this.relativeHumidity,
+    this.windSpeed,
+    this.windDirection,
+    this.shortForecast,
+    this.detailedForecast,
+  });
 
   factory WeatherData.fromFirstPeriodJson(Map<String, dynamic> json) {
     var firstPeriod = json['properties']['periods'][0];
     return WeatherData._(
+      name: firstPeriod['name'],
       temperature: firstPeriod['temperature'],
+      probabilityOfPrecipitation: firstPeriod['probabilityOfPrecipitation']
+          ['value'],
+      relativeHumidity: firstPeriod['relativeHumidity']['value'],
+      windSpeed: firstPeriod['windSpeed'],
+      windDirection: firstPeriod['windDirection'],
+      shortForecast: firstPeriod['shortForecast'],
+      detailedForecast: firstPeriod['detailedForecast'],
     );
   }
 }

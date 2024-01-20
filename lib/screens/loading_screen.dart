@@ -28,12 +28,8 @@ class LoadingScreenState extends State<LoadingScreen> {
     longitude = currentLocation.longitude;
     latitude = currentLocation.latitude;
 
-    WeatherService weatherService = WeatherService(
-      latitude: latitude!,
-      longitude: longitude!,
-    );
-    var temperature = weatherService.temperature;
-    print(temperature);
+    var weatherService = await WeatherService.create(latitude!, longitude!);
+    print(weatherService.temperature);
   }
 
   @override
