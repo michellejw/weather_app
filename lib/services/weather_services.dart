@@ -9,6 +9,7 @@ class WeatherService {
   // Weather station properties
   final double latitude;
   final double longitude;
+  String? forecastURL;
   String? city;
   String? state;
 
@@ -32,13 +33,15 @@ class WeatherService {
     return service;
   }
 
-  Future<String?> _getForecastUrl() async {
+  Future<void> _getForecastProperties() async {
     String endpointURL = '$baseEndpoint$latitude,$longitude';
     var endpointData = await networkHelper.getData(endpointURL);
     if (endpointData != null) {
       try {
         ForecastData endpointDecodedData = ForecastData.fromJson(endpointData);
-        return endpointDecodedData.forecast;
+        forecastURL = endpointDecodedData.forecast;
+        city = endpointDecodedData.city;
+        state = endpointDecodedData.state;
       } catch (e) {
         print('Error parsing endpoint data: $e');
       }
@@ -47,9 +50,9 @@ class WeatherService {
   }
 
   Future<void> _getWeatherProperties() async {
-    String? forecastURL = await _getForecastUrl();
+    await _getForecastProperties();
     if (forecastURL != null) {
-      var forecastData = await networkHelper.getData(forecastURL);
+      var forecastData = await networkHelper.getData(forecastURL!);
       if (forecastData != null) {
         try {
           WeatherData forecastDecodedData =
@@ -73,12 +76,20 @@ class WeatherService {
 
 class ForecastData {
   final String? forecast;
+  final String? city;
+  final String? state;
 
-  ForecastData._({this.forecast});
+  ForecastData._({
+    this.forecast,
+    this.city,
+    this.state,
+  });
 
   factory ForecastData.fromJson(Map<String, dynamic> json) {
     return ForecastData._(
       forecast: json['properties']['forecast'],
+      city: json['properties']['relativeLocation']['properties']['city'],
+      state: json['properties']['relativeLocation']['properties']['state'],
     );
   }
 }
