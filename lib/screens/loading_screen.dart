@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/location.dart';
-import 'package:weather_app/services/NetworkHelper.dart';
+import 'package:weather_app/services/weather_services.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -28,9 +28,11 @@ class LoadingScreenState extends State<LoadingScreen> {
     longitude = currentLocation.longitude;
     latitude = currentLocation.latitude;
 
-    NetworkHelper networkHelper =
-        NetworkHelper(latitude: latitude!, longitude: longitude!);
-    var temperature = await networkHelper.getTemperature();
+    WeatherService weatherService = WeatherService(
+      latitude: latitude!,
+      longitude: longitude!,
+    );
+    var temperature = weatherService.temperature;
     print(temperature);
   }
 
