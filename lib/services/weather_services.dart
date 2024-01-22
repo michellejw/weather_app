@@ -22,6 +22,7 @@ class WeatherService {
   String? windDirection;
   String? shortForecast;
   String? detailedForecast;
+  String? icon;
 
   static const String baseEndpoint = 'https://api.weather.gov/points/';
   NetworkHelper networkHelper = NetworkHelper();
@@ -66,6 +67,7 @@ class WeatherService {
           windDirection = forecastDecodedData.windDirection;
           shortForecast = forecastDecodedData.shortForecast;
           detailedForecast = forecastDecodedData.detailedForecast;
+          icon = forecastDecodedData.icon;
         } catch (e) {
           print('Error parsing forecast data: $e');
         }
@@ -103,6 +105,7 @@ class WeatherData {
   final String? windDirection;
   final String? shortForecast;
   final String? detailedForecast;
+  final String? icon;
 
   WeatherData._({
     this.name,
@@ -113,6 +116,7 @@ class WeatherData {
     this.windDirection,
     this.shortForecast,
     this.detailedForecast,
+    this.icon,
   });
 
   factory WeatherData.fromFirstPeriodJson(Map<String, dynamic> json) {
@@ -127,6 +131,7 @@ class WeatherData {
       windDirection: firstPeriod['windDirection'],
       shortForecast: firstPeriod['shortForecast'],
       detailedForecast: firstPeriod['detailedForecast'],
+      icon: firstPeriod['icon'],
     );
   }
 }
