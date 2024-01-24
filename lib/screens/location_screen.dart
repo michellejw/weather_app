@@ -3,7 +3,7 @@ import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({super.key, this.locationWeather});
+  const LocationScreen({super.key, this.locationWeather});
   final dynamic locationWeather;
 
   @override
@@ -63,7 +63,10 @@ class LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var weatherData = await weatherModel.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,

@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/location_screen.dart';
-import 'package:weather_app/services/location.dart';
-import 'package:weather_app/services/weather_services.dart';
+import 'package:weather_app/services/weather.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -24,21 +21,15 @@ class LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future getLocationData() async {
-    Location currentLocation = Location();
-    await currentLocation.getCurrentLocation();
+    WeatherModel weatherModel = WeatherModel();
+    var weatherData = await weatherModel.getLocationWeather();
 
-    var weatherService = await WeatherService.create(
-      currentLocation.latitude!,
-      currentLocation.longitude!,
-    );
-    // print(weatherService.city);
-
-    // Check if the widget is still in the widget tree
+    // Check if the widget is in the widget tree
     if (!mounted) return;
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen(
-        locationWeather: weatherService,
+        locationWeather: weatherData,
       );
     }));
   }

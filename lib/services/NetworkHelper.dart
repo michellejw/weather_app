@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'weather_services.dart';
 
 // NetworkHelper class focused solely on fetching data from a given URL.
 class NetworkHelper {
