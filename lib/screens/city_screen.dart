@@ -24,7 +24,8 @@ class CityScreenState extends State<CityScreen> {
           ),
         ),
         constraints: const BoxConstraints.expand(),
-        child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Column(
             children: <Widget>[
               Align(
@@ -60,6 +61,22 @@ class CityScreenState extends State<CityScreen> {
                 child: const Text(
                   'Get Weather',
                   style: kButtonTextStyle,
+                ),
+              ),
+              const Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 40.0),
+                  color: const Color(0x57050505),
+                  child: const Text(
+                    'Note: The weather information comes from the United States '
+                    'National Weather Service (NWS) and is only available for '
+                    'locations within the United States and US territories.',
+                    style: kMessageTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ],
