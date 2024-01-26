@@ -10,10 +10,12 @@ class NetworkHelper {
         return jsonDecode(response.body);
       } else {
         print('Failed to load data. Status code: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
       print('An error occurred: $e');
+      return null;
     }
-    return null;
+    // return null;
   }
 }

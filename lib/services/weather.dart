@@ -4,10 +4,13 @@ import 'package:weather_app/services/location.dart';
 const String baseEndpoint = 'https://api.weather.gov/points/';
 
 class WeatherModel {
-  Future<dynamic> getLocationWeather() async {
+  Future<dynamic> getLocationWeather({String? url}) async {
     Location currentLocation = Location();
-    await currentLocation.getCurrentLocation();
-
+    if (url != null) {
+      await currentLocation.getLocationFromPlaceName(url);
+    } else {
+      await currentLocation.getCurrentLocation();
+    }
     var weatherService = await WeatherService.create(
       currentLocation.latitude!,
       currentLocation.longitude!,
@@ -121,8 +124,9 @@ class WeatherService {
       } catch (e) {
         print('Error parsing endpoint data: $e');
       }
+    } else {
+      forecastURL = null;
     }
-    // print('Error getting weather data.');
   }
 
   Future<void> _getWeatherProperties() async {
@@ -147,6 +151,8 @@ class WeatherService {
           print('Error parsing forecast data: $e');
         }
       }
+    } else {
+      // TODO: do something if we don't get the weather data
     }
   }
 }

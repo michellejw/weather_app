@@ -1,8 +1,21 @@
 import 'package:geolocator/geolocator.dart';
+import 'NetworkHelper.dart';
 
 class Location {
   double? latitude;
   double? longitude;
+  NetworkHelper networkHelper = NetworkHelper();
+
+  Future<void> getLocationFromPlaceName(String url) async {
+    try {
+      var response = await networkHelper.getData(url);
+      final coordinates = response['results'][0]['geometry']['location'];
+      latitude = coordinates['lat'];
+      longitude = coordinates['lng'];
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future getCurrentLocation() async {
     bool serviceEnabled;

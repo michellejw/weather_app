@@ -18,6 +18,7 @@ class LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     getLocationData();
+    print('pause here');
   }
 
   Future getLocationData() async {
