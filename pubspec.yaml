@@ -15,6 +15,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   geolocator: ^10.1.0
   flutter_dotenv: ^5.1.0
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:
