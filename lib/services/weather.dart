@@ -18,51 +18,56 @@ class WeatherModel {
     return weatherService;
   }
 
-  String getWeatherIcon(String condition) {
+  String getWeatherImage(String condition) {
     if ((condition == 'tsra') |
         (condition == 'tsra_sct') |
         (condition == 'tsra_hi')) {
-      return '🌩';
+      return 'images/tstorm.png';
     } else if ((condition == 'rain_sleet') |
-        (condition == 'sleet') |
         (condition == 'rain') |
         (condition == 'rain_showers') |
         (condition == 'rain_showers_hi')) {
-      return '🌧';
-    } else if ((condition == 'blizzard') |
-        (condition == 'snow') |
-        (condition == 'rain_snow') |
+      return 'images/rain.png';
+    } else if ((condition == 'sleet') |
         (condition == 'rain_sleet') |
-        (condition == 'snow_sleet') |
         (condition == 'fzra') |
         (condition == 'rain_fzra')) {
-      return '❄️';
+      return 'images/sleet.png';
+    } else if ((condition == 'snow') |
+        (condition == 'rain_snow') |
+        (condition == 'snow_sleet')) {
+      return 'images/snow.png';
+    } else if ((condition == 'blizzard')) {
+      return 'images/blizzard.png';
     } else if ((condition == "dust") |
         (condition == "haze") |
-        (condition == "smoke") |
-        (condition == "fog")) {
-      return '🌫';
+        (condition == "smoke")) {
+      return 'images/hazy.png';
+    } else if (condition == "fog") {
+      return 'images/fog.png';
     } else if ((condition == 'hot') | (condition == 'skc')) {
-      return '☀️';
-    } else if ((condition == 'bkn') | (condition == 'ovc')) {
-      return '☁️';
-    } else if ((condition == 'few') | (condition == 'sct')) {
-      return '🌤️';
-    } else if ((condition == 'tornado') |
-        (condition == 'tropical_storm') |
-        (condition == 'hurricane')) {
-      return '🌪️';
+      return 'images/clearsky.png';
+    } else if ((condition == 'ovc')) {
+      return 'images/overcast.png';
+    } else if ((condition == 'bkn') |
+        (condition == 'few') |
+        (condition == 'sct')) {
+      return 'images/partlycloudy.png';
+    } else if ((condition == 'tropical_storm') | (condition == 'hurricane')) {
+      return 'images/tropicalstorm.png';
+    } else if (condition == 'tornado') {
+      return 'images/tornado.png';
     } else if ((condition == 'wind_skc') |
         (condition == 'wind_few') |
         (condition == 'wind_sct') |
         (condition == 'wind_bkn') |
         (condition == 'wind_bkn') |
         (condition == 'wind_ovc')) {
-      return '💨';
+      return 'images/wind.png';
     } else if (condition == 'cold') {
-      return '🥶';
+      return 'images/cold.png';
     } else {
-      return '🤷‍';
+      return 'images/galaxy.png';
     }
   }
 

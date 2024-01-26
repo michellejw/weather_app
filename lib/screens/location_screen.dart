@@ -17,11 +17,13 @@ class LocationScreenState extends State<LocationScreen> {
   int? temperature;
   String? temperatureString;
   String? city;
+  String? state;
   String? shortForecast;
   String? detailedForecast;
   String? weatherType;
   String? weatherIcon;
   String? weatherMessage;
+  String backgroundImage = 'images/galaxy.png';
 
   @override
   void initState() {
@@ -35,27 +37,31 @@ class LocationScreenState extends State<LocationScreen> {
         temperature = weatherData.temperature;
         temperatureString = temperature.toString();
         city = weatherData.city;
+        state = weatherData.state;
         shortForecast = weatherData.shortForecast;
         detailedForecast = weatherData.detailedForecast;
         weatherType = extractWeatherFromIconURL(weatherData.icon);
-        weatherIcon = weatherModel.getWeatherIcon(weatherType!);
+        backgroundImage = weatherModel.getWeatherImage(weatherType!);
         weatherMessage = weatherModel.getMessage(temperature!);
+        print(weatherType);
       });
     } else {
       setState(() {
         temperatureString = "?";
         weatherIcon = "👾";
         weatherMessage = "Unknown weather";
-        city = "an unknown location";
+        city = "?";
+        state = "?";
         shortForecast = "Sorry, can't get your weather right now!";
         detailedForecast = "Sorry, can't get your weather right now!";
+        backgroundImage = 'images/galaxy.png';
       });
     }
   }
 
   String extractWeatherFromIconURL(String iconURL) {
     String lastPart = iconURL.split('/').last;
-    return lastPart.split(',')[0];
+    return lastPart.split(RegExp(r'[,?]'))[0];
   }
 
   @override
@@ -64,14 +70,15 @@ class LocationScreenState extends State<LocationScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('images/location_background.jpg'),
+            image: AssetImage(backgroundImage),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.8), BlendMode.dstATop),
+                Colors.white.withOpacity(0.7), BlendMode.dstATop),
           ),
         ),
         constraints: const BoxConstraints.expand(),
-        child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,6 +94,7 @@ class LocationScreenState extends State<LocationScreen> {
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
+                      color: kTopMenuIconColor,
                     ),
                   ),
                   TextButton(
@@ -114,28 +122,35 @@ class LocationScreenState extends State<LocationScreen> {
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
+                      color: kTopMenuIconColor,
                     ),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Row(
-                  children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(children: [
+                    Text(
+                      "$city, $state",
+                      style: kMessageTextStyle,
+                    ),
                     Text(
                       '$temperatureString° F',
                       style: kTempTextStyle,
                     ),
-                  ],
-                ),
+                  ]),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 40.0),
+                color: const Color(0x57050505),
                 child: Text(
                   // "$weatherMessage in $city",
                   "$detailedForecast",
-                  textAlign: TextAlign.right,
                   style: kMessageTextStyle,
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],

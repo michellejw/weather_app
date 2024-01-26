@@ -15,10 +15,12 @@ class CityScreenState extends State<CityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/city_background.jpg'),
+            image: const AssetImage('images/mapview.png'),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.5), BlendMode.dstATop),
           ),
         ),
         constraints: const BoxConstraints.expand(),
@@ -34,6 +36,7 @@ class CityScreenState extends State<CityScreen> {
                   child: const Icon(
                     Icons.arrow_back_ios,
                     size: 50.0,
+                    color: kTopMenuIconColor,
                   ),
                 ),
               ),

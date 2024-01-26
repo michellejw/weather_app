@@ -5,6 +5,8 @@ const kTempTextStyle = TextStyle(
   fontSize: 100.0,
 );
 
+const kTopMenuIconColor = Colors.white;
+
 const kMessageTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
   fontSize: 25.0,
@@ -13,6 +15,7 @@ const kMessageTextStyle = TextStyle(
 const kButtonTextStyle = TextStyle(
   fontSize: 30.0,
   fontFamily: 'Spartan MB',
+  color: Colors.white,
 );
 
 const kConditionTextStyle = TextStyle(
