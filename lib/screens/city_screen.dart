@@ -66,14 +66,15 @@ class CityScreenState extends State<CityScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 20.0),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: TextButton(
                       onPressed: () {
                         Navigator.pop(context, cityName);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white38,
-                        padding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
                       ),
                       child: const Text(
                         'Get Weather',
