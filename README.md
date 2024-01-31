@@ -1,4 +1,4 @@
-# weather_app
+# A tiny weather app
 
 <div style="display: flex; justify-content: space-around;">
   <img alt="App Input Screen" src="images/screenshots/weather-app-3-panel.png"/>
